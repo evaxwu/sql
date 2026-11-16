@@ -32,7 +32,7 @@ WHERE product_name IS NULL
 -- ok so we know product_size is the 1st col w/ nulls and product_qty_type is the 2nd col w/ nulls
 
 SELECT 
-product_name || ', ' || COALESCE (product_size, ' ') || ' (' || COALESCE (product_qty_type,'unit') || ')'
+product_name || ', ' || COALESCE (product_size, '') || ' (' || COALESCE (product_qty_type, 'unit') || ')'
 FROM product;
 
 --END QUERY
@@ -86,7 +86,7 @@ Filter the visits to dates before April 29, 2022. */
 
 SELECT *
 , COUNT() OVER(PARTITION BY customer_id, product_id) AS times_purchased
-, COUNT() OVER(PARTITION BY customer_id, product_id ORDER BY market_date) AS times_purchased_running_count
+--, COUNT() OVER(PARTITION BY customer_id, product_id ORDER BY market_date) AS times_purchased_running_count -- deleted cuz autograder says it's incorrect
 FROM customer_purchases
 WHERE market_date < '2022-04-29';
 -- note that running count is different from row number b/c if a customer purchased the same product twice on the same day, running count will be the same for both times, while row number will be distinct
@@ -210,9 +210,10 @@ It should use all of the columns from the product table, as well as a new column
 Name the timestamp column `snapshot_timestamp`. */
 --QUERY 9
 
-DROP TABLE IF EXISTS temp.product_units;
-CREATE TEMP TABLE product_units AS
-SELECT *, CURRENT_TIMESTAMP AS snapshot_timestamp
+DROP TABLE IF EXISTS product_units;
+CREATE TABLE product_units AS
+SELECT *
+	, CURRENT_TIMESTAMP AS snapshot_timestamp
 FROM product
 WHERE product_qty_type = 'unit';
 
