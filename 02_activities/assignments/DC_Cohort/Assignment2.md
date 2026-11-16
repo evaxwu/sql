@@ -48,17 +48,21 @@ There are several tools online you can use, I'd recommend [Draw.io](https://www.
 
 **HINT:** You do not need to create any data for this prompt. This is a conceptual model only. 
 
+![erd1.png](./images/erd1.png)
+
 #### Prompt 2
 We want to create employee shifts, splitting up the day into morning and evening. Add this to the ERD.
+
+![erd2.png](./images/erd2.png)
 
 #### Prompt 3
 The store wants to keep customer addresses. Propose two architectures for the CUSTOMER_ADDRESS table, one that will retain changes, and another that will overwrite. Which is type 1, which is type 2? 
 
 **HINT:** search type 1 vs type 2 slowly changing dimensions. 
 
-```
-Your answer...
-```
+Type 1 (Overwrite): The customer address will be stored directly in the `customer` table. When a customer's address changes, the existing address will be overwritten with the new address, and the original address will no longer be retained.
+
+Type 2 (Retain Changes): A separate `customer_address` table will be created, allowing each customer to have multiple address records. The table will include `customer_address_id` (PK), `customer_id` (FK), `address`, `start_date`, `end_date`, and `is_current` columns. Whenever a customer's address changes, a new record will be inserted while the previous record is retained. The `start_date`, `end_date`, and `is_current` columns will indicate when each address was valid and which address is currently active.
 
 ***
 
@@ -188,9 +192,11 @@ Read: Boykis, V. (2019, October 16). _Neural nets are just people all the way do
 
 **What are some of the ethical issues important to this story?**
 
-Consider, for example, concepts of labour, bias, LLM proliferation, moderating content, intersection of technology and society, ect. 
+Consider, for example, concepts of labour, bias, LLM proliferation, moderating content, intersection of technology and society, etc. 
 
 
-```
-Your thoughts...
-```
+One ethical issue that stood out to me is the hidden human labour behind seemingly advanced technologies. Although we often celebrate technological advancements and the convenience they bring to our lives, we rarely consider the human cost behind their development. Many sophisticated AI models are built on the labour of underpaid workers who manually collect, categorize, and label training data. This reminds me of the history of Canada's railway system. Today, we casually enjoy the convenience of a well-established railway network, but its construction relied heavily on underpaid Chinese workers, who faced extremely harsh and exploitative working conditions. Moreover, the railway was built on Indigenous lands through colonization and dispossession. I think this serves as a reminder that whenever we benefit from newly developed technologies or infrastructure, we should also be mindful of where they came from, whose labour made them possible, and what human costs were involved, and give the workers the proper compensation they deserve.
+
+Another ethical issue is the presence of human biases in AI systems. Humans inherently have biases and prejudices, and since these systems are ultimately built and trained by humans, their outputs cannot necessarily be considered neutral or objective. Even seemingly neutral machine-generated judgments may reflect biases embedded in the training data, including stereotypes and offensive terminology.
+
+This also raises a third question regarding content moderation: despite efforts to remove offensive or harmful content, who gets to decide what counts as offensive or unsafe in the first place? These decisions are still made by humans, who may have their own cultural assumptions and biases. Consequently, even the process of removing harmful content can reflect the values and perspectives of the people making those decisions. At the end of the day, rather than eliminating existing biases, AI systems may simply pass them down or even reinforce pre-existing social norms and prejudices.
